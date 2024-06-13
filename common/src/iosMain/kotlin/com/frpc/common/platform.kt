@@ -21,6 +21,14 @@ actual fun getFrpcVersion(): String {
     return com.frpclib.FrpclibGetVersion()
 }
 
+actual fun updateIniFile(
+    filePath: String,
+    json: JsonObject
+): Int {
+    TODO("Not yet implemented")
+
+}
+
 @Composable
 private fun UIShow() {
     App()

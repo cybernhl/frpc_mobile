@@ -16,7 +16,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollDispatcher
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
+import com.frpc.common.bean.ChatData
 import com.frpc.common.bean.ServerInfoBean
 import com.frpc.common.bean.TunnelDataBean
 import com.frpc.common.common.SpacerEx
@@ -33,6 +37,7 @@ fun MainPage() {
                         "TCP", false, false, "", "127.0.0.1", 3306, 3306
                     )
                 ).apply {
+                    chatData = ChatData("https://www.baidu.com",false)
                     isSelect = true
                 },
                 ServerInfoBean(
@@ -95,8 +100,11 @@ fun MainPage() {
         if (isEditMode.value) {
             // ?
         } else {
+            val nestedScrollDispatcher = NestedScrollDispatcher()
+            val nestedScrollConnection = object : NestedScrollConnection {}
+
             LazyColumn(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize().nestedScroll(nestedScrollConnection, nestedScrollDispatcher),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
 

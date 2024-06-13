@@ -1,15 +1,17 @@
 package com.frpc.common.pages.login
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContent
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -24,6 +26,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -33,11 +37,8 @@ import androidx.compose.ui.unit.sp
 import com.frpc.common.ADD_TUNNEL
 import com.frpc.common.MAIN
 import com.frpc.common.Router
-import com.frpc.common.common.Constants
 import com.frpc.common.common.SpacerEx
 import com.frpc.common.getFrpcVersion
-import com.multiplatform.webview.web.WebView
-import com.multiplatform.webview.web.rememberWebViewState
 import com.oldguy.common.io.File
 
 @Composable
@@ -60,7 +61,7 @@ public fun AddServer() {
                 imeAction = ImeAction.Done
             ),
             keyboardActions = KeyboardActions(
-                onDone = {keyboardController?.hide()}
+                onDone = { keyboardController?.hide() }
             ),
             value = serverAddress,
             onValueChange = { serverAddress = it },
@@ -68,7 +69,7 @@ public fun AddServer() {
             modifier = Modifier.fillMaxWidth().padding(horizontal = 40.dp),
 
 
-        )
+            )
         SpacerEx(5)
         OutlinedTextField(
             keyboardOptions = KeyboardOptions(
@@ -76,7 +77,7 @@ public fun AddServer() {
                 imeAction = ImeAction.Done
             ),
             keyboardActions = KeyboardActions(
-                onDone = {keyboardController?.hide()}
+                onDone = { keyboardController?.hide() }
             ),
             value = serverPort,
             onValueChange = { serverPort = it },
@@ -90,7 +91,7 @@ public fun AddServer() {
                 imeAction = ImeAction.Done
             ),
             keyboardActions = KeyboardActions(
-                onDone = {keyboardController?.hide()}
+                onDone = { keyboardController?.hide() }
             ),
             value = loginToken,
             onValueChange = { loginToken = it },
@@ -98,11 +99,24 @@ public fun AddServer() {
             modifier = Modifier.fillMaxWidth().padding(horizontal = 40.dp)
         )
         SpacerEx(10)
-        Row(modifier = Modifier.fillMaxWidth()) {
-            SpacerEx(40)
-            Text("添加隧道", modifier = Modifier.clickable {
+        Row(
+            modifier = Modifier.fillMaxWidth().clickable {
                 Router.navigateTo(ADD_TUNNEL)
-            })
+            },
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            SpacerEx(40)
+            Text("添加隧道")
+            SpacerEx(5)
+            Canvas(modifier = Modifier.size(15.dp)) {
+                val path = Path().apply {
+                    moveTo(size.width / 2, size.height)
+                    lineTo(0f, 0f)
+                    lineTo(size.width, 0f)
+                    close()
+                }
+                drawPath(path, Color.Black, style = Stroke(width = 3f))
+            }
         }
         Button(
             onClick = {
@@ -114,48 +128,18 @@ public fun AddServer() {
         ) {
             Text("确认添加", modifier = Modifier.padding(vertical = 10.dp))
         }
-        val webViewState =
-            rememberWebViewState("https://github.com/KevinnZou/compose-webview-multiplatform")
-        webViewState.webSettings.apply {
-            isJavaScriptEnabled = true
-            customUserAgentString =
-                "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1) AppleWebKit/625.20 (KHTML, like Gecko) Version/14.3.43 Safari/625.20"
-            androidWebSettings.apply {
-                isAlgorithmicDarkeningAllowed = true
-                safeBrowsingEnabled = true
-            }
-        }
-        SpacerEx(10)
 
+        Spacer(Modifier.size(10.dp).weight(1f))
         Text("frp kemel : ${getFrpcVersion()}", modifier = Modifier.padding(20.dp))
-
-        Row {
-            Box(modifier = Modifier.weight(1f)) {
-
-            }
-
-            Button(
-                onClick = {
-
-                },
-                modifier = Modifier.align(Alignment.CenterVertically),
-            ) {
-                Text("Go")
-            }
-            //compose-webview-multiplatform can run at Android 13 (WSA simulator) crash at Android 9 (Redmi Note8T)
-            WebView(//FIXME : java.lang.UnsupportedOperationException: This method is not supported by the current version of the framework and the current WebView APK
-                state = webViewState,
-                modifier = Modifier.fillMaxSize(),
-            )
-        }
     }
 }
-fun fileReader(filePath:String) {
+
+fun fileReader(filePath: String) {
     val directory = File(filePath)
     val exists = directory.exists
     val dir = directory.path
     val isDir = directory.isDirectory
-    val full =  directory.fullPath
+    val full = directory.fullPath
     val files = directory.listFilesTree
     for (file in files) {
         println(file.name)

@@ -1,0 +1,60 @@
+20240613
+1.  photo_2024-06-13_15-51-13.jpg   : 這個畫面錯了  是 展開  "添加隧道"   那個頁面在下面  會把 確認添加 往下推  這樣  預設就一個  "服務器"+"隧道"(沒展開的話  用一個預設值) 而不是跳下一頁
+
+2.  photo_2024-06-13_15-51-31.jpg  :  圖片是  示意 這邊是要把 添加/預設的  顯示出來   (前一個 添加隧道的資料顯示出來)  然後 "黃色"是選中的示意 不是 真的外框黃色
+
+                                     選中後  才可--編輯/啟動/停止/複製/分享 然後返回(back)是錯誤的頁面 (這邊不能back 除非點 編輯 & 編輯 到下個頁面才有)  &  iOS的沒有實體back 要做一個 "<-"
+
+3.    92500_0.jpg    :  Android才有 WebView出現? iOS消失了
+
+4.  92499_0.jpg & photo_2024-06-13 14.49.09.jpeg 在輸入部分  要對輸入類型/長度/等 限制 避免IP是中文
+
+5. call frp的 void/method/fun 可定義在 common\src\commonMain\kotlin\com\frpc\common  詳細有哪些  參考 "frpc-Android" 改寫拉出共用的 void/method/fun <--- 例如 getFrpcVersion /runFrp/loadConfigFile/....
+_____________
+20240607
+
+1.  step3m.png 黃框 是 "選取"的意思  選取後 可以"編輯" 或是 "啟動" & "停止" 配置
+
+2.  step1m.png 目前 UI上 少了那個  "展開"- 添加隧道  (添加隧道的 內容在 step2.png )  -- 預設是 tcp /testX(X預設是1)/127.0.0.1/22 /10005
+
+3. iOS部分已經可以載入frameworks   範例可看 透過getFrpcVersion() 取得版本 (common\src\iosMain\kotlin\com\frpc\common\platform.kt)
+
+4. 可用 io.github.skolson:kmp-io:0.1.5讀寫檔案
+
+5. compose-webview-multiplatform 示範在 AddServicePage.kt  要移動到 step3m.png 的  "啟動"之後的  下面 (啟動確定運作後  "展開" 頁面(本來hide)) 用來測試/示範 該隧道的rule有運作
+__________________
+1. 使用 compose
+
+2. 原始圖片是 step1 --> step2 --> step3
+ (STEP1  輸入資料  -->帶入step2 -->帶入 step3 存檔 跟 啟動)
+
+3. 改成 step1m (整合step1 & step2 )  --> step3m -(編輯/添加)->   step2
+
+4. step2資料在 step1m  , 預設是 tcp /testX(X預設是1)/127.0.0.1/22 /10005
+
+5. step1m上面三個必填
+
+6. 帶入到 step3m --> 顯示每個 item --> 預設紅燈停止 & 每個 item 資料儲存成 Demo_TestX_Config.ini
+
+Demo_TestX_Config.ini 範例內容是 (類似 gradle.properties 格式)
+
+[common]
+server_addr = yo.my.net
+server_port = 7000
+token = yes_my_token
+
+[ssh]
+type = tcp
+local_ip = 127.0.0.1
+local_port = 22
+
+[web01]
+type = http
+local_ip = 127.0.0.1
+local_port = 80
+use_encryption = false
+use_compression = true
+
+7. 選取 item 會變色(知道被選取) --- print/logcat出 每個 item 的 Demo_TestX_Config.ini file path
+
+8. 選擇啟動 ---> 把選取的item 的 Demo_TestX_Config.ini file path 帶入 然後  print/logcat出

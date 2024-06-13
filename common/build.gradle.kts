@@ -105,7 +105,6 @@ kotlin {
                 implementation(libs.settings)
 
                 api(libs.compose.webview.multiplatform)
-                api("io.github.kevinnzou:compose-webview-multiplatform:1.9.4")
 //                implementation("co.touchlab:kermit:2.0.3")
 //                implementation("org.jetbrains.kotlinx:atomicfu:0.23.2")
 

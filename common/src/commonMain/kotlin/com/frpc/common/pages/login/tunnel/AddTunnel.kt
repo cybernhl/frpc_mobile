@@ -12,6 +12,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.TrendingFlat
+import androidx.compose.material.icons.automirrored.outlined.TrendingDown
+import androidx.compose.material.icons.automirrored.outlined.VolumeDown
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
@@ -83,15 +86,13 @@ fun AddTunnelPage() {
 
             Button(
                 onClick = {
-
+                    Router.popback()
                 },
                 modifier = Modifier
                     .padding(15.dp)
                     .fillMaxWidth(),
             ) {
-                Text("保存", modifier = Modifier.clickable {
-                    Router.navigateTo(ADD_TUNNEL)
-                })
+                Text("保存")
             }
         }
     }

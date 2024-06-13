@@ -1,5 +1,6 @@
 package com.frpc.common.bean
 
+import androidx.compose.runtime.mutableStateOf
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -12,13 +13,33 @@ data class ServerInfoBean(
     @SerialName("remotePort")
     val remotePort: Int,
     @SerialName("tunnel")
-    val tunnelDataBean: TunnelDataBean
+    val tunnelDataBean: TunnelDataBean,
 ) {
 
-    var isStart: Boolean = false
-    var isSelect = false
+    var isSelectState = mutableStateOf(false)
 
-    var chatData : ChatData? = null
+    var isSelect: Boolean
+        set(value) {
+            isSelectState.value = value
+        }
+        get() {
+            return isSelectState.value
+        }
+
+
+    var isStartState = mutableStateOf(false)
+
+    var isStart: Boolean
+        set(value) {
+            isStartState.value = value
+        }
+        get() {
+            return isStartState.value
+        }
+
+
+
+    var chatData: ChatData? = null
 
     var chatDataList: List<ChatData>? = null
 
@@ -29,7 +50,7 @@ data class ServerInfoBean(
     }
 
     fun buildRecDataList(): String {
-        return chatData?.text ?:""
+        return chatData?.text ?: ""
 //        val sb = StringBuilder()
 //        chatDataList?.forEach {
 //
