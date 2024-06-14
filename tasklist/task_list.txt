@@ -10,6 +10,14 @@
 4.  92499_0.jpg & photo_2024-06-13 14.49.09.jpeg 在輸入部分  要對輸入類型/長度/等 限制 避免IP是中文
 
 5. call frp的 void/method/fun 可定義在 common\src\commonMain\kotlin\com\frpc\common  詳細有哪些  參考 "frpc-Android" 改寫拉出共用的 void/method/fun <--- 例如 getFrpcVersion /runFrp/loadConfigFile/....
+
+6. 例如 LoginActivity : 53做 IP跟PORT檢查 https://github.com/cybernhl/frpc-Android/blob/6efd413004573f08c0fc3cd74370714a38026c62/app/src/main/java/com/activity/LoginActivity.java#L53
+
+knife_net_Activity : 118 https://github.com/cybernhl/frpc-Android/blob/6efd413004573f08c0fc3cd74370714a38026c62/app/src/main/java/com/activity/knife_net_Activity.java#L118
+
+7. 測試 https://blog.csdn.net/a15024735672/article/details/136652794
+
+8. 其他參考: https://github.com/AceDroidX/frp-Android
 _____________
 20240607
 
