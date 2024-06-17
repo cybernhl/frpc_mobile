@@ -1,4 +1,7 @@
-20240613
+20240613  ---  20240607 & Init 要達成
+
+(要用MVVM架構  目前沒有)
+
 1.  photo_2024-06-13_15-51-13.jpg   : 這個畫面錯了  是 展開  "添加隧道"   那個頁面在下面  會把 確認添加 往下推  這樣  預設就一個  "服務器"+"隧道"(沒展開的話  用一個預設值) 而不是跳下一頁
 
 2.  photo_2024-06-13_15-51-31.jpg  :  圖片是  示意 這邊是要把 添加/預設的  顯示出來   (前一個 添加隧道的資料顯示出來)  然後 "黃色"是選中的示意 不是 真的外框黃色
@@ -15,7 +18,7 @@
 
 knife_net_Activity : 118 https://github.com/cybernhl/frpc-Android/blob/6efd413004573f08c0fc3cd74370714a38026c62/app/src/main/java/com/activity/knife_net_Activity.java#L118
 
-7. 測試 https://blog.csdn.net/a15024735672/article/details/136652794
+7. 測試 https://blog.csdn.net/a15024735672/article/details/136652794 <---測試 讓frpc可以運作
 
 8. 其他參考: https://github.com/AceDroidX/frp-Android
 _____________
@@ -31,6 +34,8 @@ _____________
 
 5. compose-webview-multiplatform 示範在 AddServicePage.kt  要移動到 step3m.png 的  "啟動"之後的  下面 (啟動確定運作後  "展開" 頁面(本來hide)) 用來測試/示範 該隧道的rule有運作
 __________________
+Init
+
 1. 使用 compose
 
 2. 原始圖片是 step1 --> step2 --> step3
@@ -42,7 +47,7 @@ __________________
 
 5. step1m上面三個必填
 
-6. 帶入到 step3m --> 顯示每個 item --> 預設紅燈停止 & 每個 item 資料儲存成 Demo_TestX_Config.ini
+6. 帶入到 step3m --> 顯示每個 item --> 預設紅燈停止 & 每個 item 資料儲存成 Demo_TestX_Config.ini <---要可以run  (Frpclib.run)
 
 Demo_TestX_Config.ini 範例內容是 (類似 gradle.properties 格式)
 
