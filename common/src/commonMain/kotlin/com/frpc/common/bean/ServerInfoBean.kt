@@ -65,15 +65,8 @@ data class ServerInfoBean(
 //        return sb.toString()
     }
 
+    private fun String.isUrl(): Boolean {
+        val regex = Regex("""^(https?|ftp)://[^\s/$.?#].[^\s]*$""")
+        return regex.matches(this)
+    }
 }
-
-private fun String.isUrl(): Boolean {
-    val regex = Regex("""^(https?|ftp)://[^\s/$.?#].[^\s]*$""")
-    return regex.matches(this)
-}
-
-@Serializable
-data class ChatData(
-    val text: String,
-    val isSelf: Boolean
-)
