@@ -1,6 +1,7 @@
 package com.frpc.common.bean
 
 import androidx.compose.runtime.mutableStateOf
+import com.frpc.common.common.SshSection
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -13,7 +14,7 @@ data class ServerInfoBean(
     @SerialName("remotePort")
     val remotePort: Int,
     @SerialName("tunnel")
-    val tunnelDataBean: TunnelDataBean,
+    val sshSection: SshSection,
 ) {
 
     var isSelectState = mutableStateOf(false)

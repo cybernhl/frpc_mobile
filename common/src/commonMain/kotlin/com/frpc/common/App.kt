@@ -18,7 +18,6 @@ internal fun App() {
             ) {
 //                SPLASH.registerRoute(this)
                 ADD_SERVER.registerRoute(this)
-                ADD_TUNNEL.registerRoute(this)
                 MAIN.registerRoute(this)
             }
         }

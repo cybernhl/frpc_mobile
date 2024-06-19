@@ -1,10 +1,8 @@
 package com.frpc.common.pages.login.tunnel
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -12,10 +10,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.TrendingFlat
-import androidx.compose.material.icons.automirrored.outlined.TrendingDown
-import androidx.compose.material.icons.automirrored.outlined.VolumeDown
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -30,7 +24,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,64 +36,45 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.frpc.common.ADD_TUNNEL
 import com.frpc.common.Router
 import com.frpc.common.bean.ConnectionType
+import com.frpc.common.bean.TunnelDataBean
 import com.frpc.common.common.SpacerEx
+import com.frpc.common.common.SshSection
+import com.frpc.common.pages.login.AddServerViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddTunnelPage() {
-    Scaffold(
-        topBar = {
-            TopAppBar(title = {
-                Text("添加隧道")
-            }, navigationIcon = {
-                IconButton(onClick = {Router.popback() }) {
-                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                }
-            })
+fun AddTunnelPage(data: SshSection) {
+    Column {
+        val mPageData = remember { data }
+
+        ConnectionTypeSelection {
+            mPageData.type = it.name
         }
-    ) {
-        Column {
-            Text(text = "基本信息", fontSize = 16.sp, modifier = Modifier.padding(10.dp))
-            SpacerEx(5)
-            Surface(
-                color = Color.Black,
-                modifier = Modifier
-                    .height(1.dp)
-                    .width(50.dp)
-            ) {}
 
+        EncryptionCompressionCheckbox(mPageData)
 
-            ConnectionTypeSelection {
+        InputLayout("隧道名称  ", "请填写隧道名称", mPageData.name) {
+            mPageData.name = it
+        }
+        InputLayout("局域网地址 ", "请填写局域网地址", mPageData.localIp) {
+            mPageData.localIp = it
+        }
+        InputLayout("局域网端口号", "请填写局域网端口号", mPageData.localPort.toString()) {
+            runCatching {
+                mPageData.localPort = it
             }
-
-            EncryptionCompressionCheckbox()
-
-            InputLayout("隧道名称  ", "请填写隧道名称") {}
-            InputLayout("局域网地址 ", "请填写局域网地址") {}
-            InputLayout("局域网端口号", "请填写局域网端口号") {}
-            InputLayout("远程端口号 ", "请填写远程端口号") {}
-
-            SpacerEx(40)
-
-            Button(
-                onClick = {
-                    Router.popback()
-                },
-                modifier = Modifier
-                    .padding(15.dp)
-                    .fillMaxWidth(),
-            ) {
-                Text("保存")
+        }
+        InputLayout("远程端口号 ", "请填写远程端口号", mPageData.remotePort.toString()) {
+            runCatching {
+                mPageData.remotePort = it
             }
         }
     }
 }
 
 @Composable
-private fun EncryptionCompressionCheckbox() {
+private fun EncryptionCompressionCheckbox(pageData: SshSection) {
     var isEncryptionChecked by remember { mutableStateOf(false) }
     var isCompressionChecked by remember { mutableStateOf(false) }
     Row(
@@ -110,13 +85,19 @@ private fun EncryptionCompressionCheckbox() {
         SpacerEx(10)
         Checkbox(
             checked = isEncryptionChecked,
-            onCheckedChange = { isEncryptionChecked = it }
+            onCheckedChange = {
+                isEncryptionChecked = it
+                pageData.isCompress = it
+            }
         )
         Text(text = "加密")
         SpacerEx(30)
         Checkbox(
             checked = isCompressionChecked,
-            onCheckedChange = { isCompressionChecked = it }
+            onCheckedChange = {
+                isCompressionChecked = it
+                pageData.isEncrypt = it
+            }
         )
         Text(text = "压缩")
     }
@@ -189,9 +170,15 @@ private fun ConnectionTypeRadioButton(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun InputLayout(name: String, hint: String, onValueChange: (String) -> Unit) {
-    var value by remember { mutableStateOf(TextFieldValue()) }
+private fun InputLayout(
+    name: String,
+    hint: String,
+    initValue: String = "",
+    onValueChange: (String) -> Unit
+) {
+    var value by remember { mutableStateOf(TextFieldValue(initValue)) }
     Row(
         modifier = Modifier.padding(15.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -205,7 +192,10 @@ private fun InputLayout(name: String, hint: String, onValueChange: (String) -> U
                 onValueChange(it.text)
             },
             modifier = Modifier.weight(1f),
-            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.End),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                containerColor = Color.Transparent
+            ),
+            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Start),
             placeholder = { Text(hint, textAlign = TextAlign.End, color = Color.Gray) }
         )
     }

@@ -6,19 +6,18 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class TunnelDataBean(
     @SerialName("type")
-    val type: String,
+    var type: String,
     @SerialName("compress")
-    val isCompress : Boolean,
+    var isCompress : Boolean,
     @SerialName("encrypt")
-    val isEncrypt : Boolean,
+    var isEncrypt : Boolean,
 
     @SerialName("tunnelName")
-    val tunnelName : String,
+    var tunnelName : String,
     @SerialName("localAddress")
-    val localAddress : String,
+    var localAddress : String,
     @SerialName("localPort")
-    val localPort : Int,
+    var localPort : Int,
     @SerialName("remotePort")
-    val remotePort : Int,
-
+    var remotePort : Int,
 )

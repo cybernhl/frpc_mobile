@@ -38,7 +38,7 @@ fun ServerInfoItem(bean: ServerInfoBean) {
     Column {
         Row(modifier = m) {
             Column(modifier = Modifier.padding(15.dp)) {
-                val tunnelDataBean = bean.tunnelDataBean
+                val tunnelDataBean = bean.sshSection
                 Text(bean.name)
                 SpacerEx(5)
                 val type = tunnelDataBean.type

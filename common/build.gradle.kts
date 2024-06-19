@@ -107,6 +107,7 @@ kotlin {
                 api(libs.compose.webview.multiplatform)
 //                implementation("co.touchlab:kermit:2.0.3")
 //                implementation("org.jetbrains.kotlinx:atomicfu:0.23.2")
+                implementation(libs.sonner)
 
                 implementation(compose.components.resources)
                 ///region 讀寫檔案
