@@ -5,6 +5,8 @@
 
 3. 添加/編輯是添加/編輯端口的意思
 
+4. MainActivity --> CustomMaterialTheme -->  MaterialTheme <---? --->  MaterialTheme <--- PreComposeApp <--App
+
 _______
 
 20240613  ---  20240607 & Init 要達成
