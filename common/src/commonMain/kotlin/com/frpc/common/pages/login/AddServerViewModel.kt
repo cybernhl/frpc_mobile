@@ -1,11 +1,8 @@
 package com.frpc.common.pages.login
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import com.frpc.common.bean.TunnelDataBean
-import com.frpc.common.common.CommonSection
+import com.frpc.common.common.Configuration
 import com.frpc.common.common.LocalConfigManager
-import kotlinx.coroutines.flow.MutableStateFlow
+import com.frpc.common.common.ServerManager
 import kotlinx.coroutines.launch
 import moe.tlaster.precompose.viewmodel.ViewModel
 import moe.tlaster.precompose.viewmodel.viewModelScope
@@ -23,5 +20,12 @@ class AddServerViewModel : ViewModel() {
 //        _commonSectionFlow.collectAsState(null, viewModelScope.coroutineContext)
 
     suspend fun initConfig() = LocalConfigManager.loadInitConfig()
+
+    fun addServer(configuration: Configuration, callback: () -> Unit) {
+        viewModelScope.launch {
+            ServerManager.addConfig(configuration)
+            callback()
+        }
+    }
 
 }

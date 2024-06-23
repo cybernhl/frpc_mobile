@@ -28,33 +28,23 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollDispatcher
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import com.frpc.common.Router
-import com.frpc.common.bean.ChatData
-import com.frpc.common.bean.ServerInfoBean
+import com.frpc.common.common.CommonPageContext
+import com.frpc.common.common.PageCtx
 import com.frpc.common.common.SpacerEx
-import com.frpc.common.common.SshSection
+import moe.tlaster.precompose.viewmodel.viewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainPage() {
+    val viewModel = viewModel(MainViewModel::class) {
+        MainViewModel()
+    }
+
+    val pageCtx = CommonPageContext()
+
     var dataList = remember {
-        mutableStateOf(
-            arrayListOf(
-                ServerInfoBean(
-                    "test1", "8.8.8.8", 8888, SshSection(
-                        "","TCP", "127.0.0.1", "3306", "3306"
-                    )
-                ).apply {
-                    chatData = ChatData("https://www.baidu.com", false)
-                    isSelect = true
-                },
-                ServerInfoBean(
-                    "test2", "8.8.8.8", 8888, SshSection(
-                        "","HTTP", "127.0.0.1", "3306", "3306"
-                    )
-                )
-            )
-        )
+        mutableStateOf(viewModel.getServerConfig())
     }
 
     Scaffold(
@@ -77,7 +67,12 @@ fun MainPage() {
                         val list = dataList.value
                         list.forEach {
                             if (it.isSelect) {
-                                it.isStart = true
+                                pageCtx.showLoading()
+                                viewModel.startFrPC(it) { result ->
+                                    pageCtx.hideLoading()
+                                    it.isStart = true
+                                    it.isSelect = false
+                                }
                             }
                         }
                         dataList.value = list
@@ -87,19 +82,24 @@ fun MainPage() {
                         val list = dataList.value
                         list.forEach {
                             if (it.isSelect) {
-                                it.isStart = false
+                                pageCtx.showLoading()
+                                viewModel.stopFrpc(it) { result ->
+                                    pageCtx.hideLoading()
+                                    it.isStart = false
+                                    it.isSelect = false
+                                }
                             }
                         }
                         dataList.value = list
                     })
-                    SpacerEx(5)
-                    Text("全部启动", color = Color.Black, modifier = Modifier.clickable {
-
-                    })
-                    SpacerEx(5)
-                    Text("全部停止", color = Color.Black, modifier = Modifier.clickable {
-
-                    })
+//                    SpacerEx(5)
+//                    Text("全部启动", color = Color.Black, modifier = Modifier.clickable {
+//
+//                    })
+//                    SpacerEx(5)
+//                    Text("全部停止", color = Color.Black, modifier = Modifier.clickable {
+//
+//                    })
                     SpacerEx(5)
                 }
 
@@ -109,8 +109,8 @@ fun MainPage() {
                 }
             })
         }
-    ) {
-        Column {
+    ) { paddingValue ->
+        Column(modifier = Modifier.padding(paddingValue)) {
             val isEditMode = remember { mutableStateOf(false) }
 
             if (isEditMode.value) {

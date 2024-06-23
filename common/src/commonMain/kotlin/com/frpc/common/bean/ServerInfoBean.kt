@@ -12,7 +12,7 @@ data class ServerInfoBean(
     @SerialName("remoteAddress")
     val remoteAddress: String,
     @SerialName("remotePort")
-    val remotePort: Int,
+    val remotePort: String,
     @SerialName("tunnel")
     val sshSection: SshSection,
 ) {

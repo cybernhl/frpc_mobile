@@ -8,6 +8,7 @@
         android:label="demo"
         android:allowBackup="false"
         android:usesCleartextTraffic="true"
+        android:name=".MApplication"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity

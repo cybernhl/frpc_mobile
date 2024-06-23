@@ -177,8 +177,10 @@ fun AddServer() {
         Button(
             onClick = {
                 val data = configurationData
-                if (checkConfigurationData(data, pageCtx)){
-                    Router.navigateTo(MAIN)
+                if (checkConfigurationData(data, pageCtx)) {
+                    viewModel.addServer(data) {
+                        Router.navigateTo(MAIN)
+                    }
                 }
             },
             modifier = Modifier
