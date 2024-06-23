@@ -18,7 +18,11 @@ class PageCtx(
         }
     }
 
-    fun showLoading() = loading.showDialog()
+    fun showLoading() {
+        if (!loading.dialogSwitch.value){
+            loading.showDialog()
+        }
+    }
 
     fun hideLoading() {
         loading.dialogSwitch.value = false
